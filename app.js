@@ -35,7 +35,9 @@ app.use(function(err, req, res, next) {
 
 });
 
-var server = app.listen(port)
+var server = app.listen(port , host, ()=>{
+  console.log('listening on '+host+port)
+})
 
 var usernames = []// from database
 
