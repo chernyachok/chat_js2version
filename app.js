@@ -8,7 +8,7 @@ dotenv.config();
 
 var app = express();
 
-var port =  3000
+var port =  process.env.PORT
 var host ='localhost'
 
 app.use(bodyParser.json());
