@@ -8,8 +8,8 @@ dotenv.config();
 
 var app = express();
 
-var port =  process.env.PORT
-var host ='localhost'
+var port =  process.env.PORT || 3000
+var host =process.env.HOST || "localhost"
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
