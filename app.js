@@ -9,7 +9,7 @@ dotenv.config();
 var app = express();
 
 var port =  process.env.PORT
-//var host =process.env.HOST
+var host =process.env.HOST
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
