@@ -9,7 +9,7 @@ dotenv.config();
 var app = express();
 
 var port =  process.env.PORT
-var host =process.env.HOST
+//var host =process.env.HOST
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -35,9 +35,7 @@ app.use(function(err, req, res, next) {
 
 });
 
-var server = app.listen(port , host, ()=>{
-  console.log('listening on '+host+port)
-})
+var server = app.listen(port)
 
 var usernames = []// from database
 
