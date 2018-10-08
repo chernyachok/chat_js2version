@@ -3,25 +3,32 @@
   <head>
     <meta charset="utf-8">
     <title>ChatIO</title>
-    <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
   </head>
   <body>
     <div id="container">
       <div id="namesWrapper">
         <h2>ChatIO</h2>
         <p>Create Username: </p>
-        <form action="index.html" method="post">
+        <form action="index.html" method="post" id="usernameForm">
           <input type="text" size="25" id="username" placeholder="type smth.." >
           <input type="submit" value="Submit" >
         </form>
+        <span id="errors"></span>
       </div>
 
       <div class="" id="mainWrapper">
         <h2>ChatIO</h2>
         <div class="" id="chatWrapper">
             <div class="" id="chatWindow">
+              <ul id="newMessage">
 
+              </ul>
             </div>
+            <div id="typing"></div>
             <form id="messageForm">
                 <input type="text" name="message" id="message" placeholder="type smth..">
                 <input type="submit" value="Send">
@@ -29,7 +36,9 @@
         </div>
         <div class="" id="userWrapper">
           <div class="" id="users">
+            <ul id="usernames">
 
+            </ul>
           </div>
 
         </div>
@@ -37,5 +46,7 @@
       </div>
 
     </div>
+
+    <script type="text/javascript" src="js/main.js"></script>
   </body>
 </html>
