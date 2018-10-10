@@ -25,7 +25,9 @@
         <div class="" id="chatWrapper">
             <div class="" id="chatWindow">
               <ul id="newMessage">
-
+                {{#each msgs}}
+                  <li id="position{{@index}}"><b>{{username}}: </b>{{msg}}</li>
+                {{/each}}
               </ul>
             </div>
             <div id="typing"></div>

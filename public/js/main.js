@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+  var canPublish = true;
   var socket = io.connect()
   var messageForm = $('#messageForm');
   var message  = $('#message')//message
@@ -33,7 +34,14 @@ $(document).ready(function(){
   })
 
   message.on('keyup',function(){
-    socket.emit('typing')
+    if(canPublish){
+      socket.emit('typing')
+    }
+    canPublish = false;
+    setTimeout(()=>{
+      canPublish = true;
+    },1000)
+
   })
 
   socket.on('usernames', (usernames)=>{
@@ -45,7 +53,17 @@ $(document).ready(function(){
 
   socket.on('new message', (data)=>{
     $('#typing').html('')
-    chatWindowList.append(`<li><b>${data.socketUsername}: </b>${data.newMessage}</li>`);
+    if(data.current_length<5){
+        $('#newMessage').append(`<li id="position${data.current_length}"><b>${data.socketUsername}: </b>${data.newMessage}</li>`)
+    }else{
+        for(let i= 0; i< data.current_length; i++){
+          if(i == data.current_length-1){
+            $('#position'+i).html(`<b>${data.socketUsername}: </b>${data.newMessage}`)
+            break;
+          }
+          $('#position'+i).html($('#position'+(i+1) ).html())
+        }
+      }
   })
 
   socket.on('typing', (data)=>{

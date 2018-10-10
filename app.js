@@ -3,6 +3,11 @@ var dotenv = require('dotenv')
 var bodyParser = require('body-parser');
 const path = require('path');
 var socket = require('socket.io')
+var shortid = require('shortid')
+var expressHbs = require('express-handlebars')
+var db = require('./config/lowdb')
+//console.log(db.get('info').value())
+//console.log(shortid.generate())
 
 dotenv.config();
 
@@ -15,12 +20,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static('public'));
 app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'ejs')
+app.engine('hbs', expressHbs({ extname: 'hbs'}));
+app.set('view engine', 'hbs')
 
 
+var msgs = db.get('info').value() //all rows
+//console.log(msgs)
+//console.log(db.get('info').remove({username: db.get('info[0]').value().username}).write() ) //size( ) ==length
 
 app.get('/', (req,res)=>{
-  res.sendFile(__dirname+'/views/index.html')
+  res.render('index', {msgs: msgs})
 })
 
 
@@ -56,8 +65,14 @@ io.sockets.on('connection', (socket)=>{
 
   socket.on('send message', (data)=>{
     //console.log(socket.id)
-
-    io.sockets.emit('new message', {newMessage: data, socketUsername: socket.username})//to all socket.id`s
+    //console.log(db.)
+    var count = db.get('info').value().length;
+    db.get('info').push({_id: shortid.generate() ,username: socket.username, msg: data}).write()
+    if(msgs.length > 5){
+        db.get('info').remove({_id: db.get('info[0]').value()._id}).write()
+        //db.get('info').remove({username: 'ben'}).write()
+    }
+    io.sockets.emit('new message', {newMessage: data, socketUsername: socket.username, current_length: count})//to all socket.id`s
   })
 
   socket.on('typing', function(){
